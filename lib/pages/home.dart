@@ -20,14 +20,26 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text("主页"),
-            ElevatedButton(onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (BuildContext context) {
-                  return const ResultPage();
-                })
-              );
-            }, child: const Text("data"),),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return const ResultPage(
+                        arguments: {"name": "xiaoming"},
+                      );
+                    },
+                  ),
+                );
+              },
+              child: const Text("data"),
+            ),
           ],
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [],
         ),
       ),
     );

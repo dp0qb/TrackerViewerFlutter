@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatefulWidget {
-  const ResultPage({super.key});
+  final Map arguments;
+  const ResultPage({super.key, required this.arguments});
 
   @override
   State<ResultPage> createState() => _ResultPageState();
 }
 
 class _ResultPageState extends State<ResultPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.arguments);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
