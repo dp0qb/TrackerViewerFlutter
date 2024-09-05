@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'screens/home_page.dart';
-import 'screens/result_page.dart';
-import 'screens/setting_page.dart';
+import 'pages/home.dart';
+import 'pages/result.dart';
+import 'pages/setting.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,8 +20,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => const HomePage(),
+        "/setting": (context) => const SettingsPage(),
+        "/result": (context) => const ResultPage(),
+      },
     );
+
   }
 }
 
