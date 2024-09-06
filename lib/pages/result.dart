@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:track_viewer/constants.dart';
 
 class ResultPage extends StatefulWidget {
   final Map arguments;
@@ -13,7 +15,26 @@ class _ResultPageState extends State<ResultPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.arguments);
+    getTrack(widget.arguments["href"]);
+    // print(widget.arguments);
+  }
+
+  void getTrack(String href) async {
+    Map<String, String> queryParameters = Uri.parse(href).queryParameters;
+    String uuid = queryParameters["uuid"]!;
+    String uriPath = kDetailsPath + uuid;
+    Uri uri = Uri(
+        scheme: kDetailsScheme,
+        host: kDetailsHost,
+        path: uriPath,
+    );
+    Response response = await get(uri);
+    if (response.statusCode == 200) {
+      String data = response.body;
+      print(data);
+    } else {
+      print(response.statusCode);
+    }
   }
 
   @override
