@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:track_viewer/pages/about.dart';
+import 'package:track_viewer/pages/settings.dart';
 import './result.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,17 +39,20 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("主页"),
+            const Icon(
+              Icons.search,
+              size: 100,
+            ),
             const SizedBox(
-              height: 45,
+              height: 15,
             ),
             Container(
               margin: const EdgeInsets.all(25),
               child: Center(
                 child: TextField(
                   controller: textController,
-                  minLines: 1, //必须填1，输入内容才可居中，其他默认是左上对齐
-                  maxLines: 10, //最多行数，大于1即可
+                  minLines: 1,
+                  maxLines: 10,
                   decoration: const InputDecoration(
                     border: textFieldBorder,
                     focusedBorder: textFieldBorder,
@@ -65,7 +70,6 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                // print(widget.te);
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
@@ -83,13 +87,35 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(
         width: 220,
+        // shape: Border.all(),
         child: ListView(
-          children: const [
-            ListTile(
-              title: Text("设置"),
+          children: [
+            const SizedBox(
+              height: 45,
             ),
             ListTile(
-              title: Text("关于"),
+              title: const Text("设置"),
+              onTap: () => {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return const SettingsPage();
+                    },
+                  ),
+                ),
+              },
+            ),
+            ListTile(
+              title: const Text("关于"),
+              onTap: () => {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return const AboutPage();
+                    },
+                  ),
+                ),
+              },
             ),
           ],
         ),
