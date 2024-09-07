@@ -94,6 +94,12 @@ class _HomePageState extends State<HomePage> {
               height: 45,
             ),
             ListTile(
+              leading: const CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Icons.settings,
+                ),
+              ),
               title: const Text("设置"),
               onTap: () => {
                 Navigator.of(context).push(
@@ -106,6 +112,12 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              leading: const CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Icons.info_outline,
+                ),
+              ),
               title: const Text("关于"),
               onTap: () => {
                 Navigator.of(context).push(

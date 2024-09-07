@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:track_viewer/constants.dart';
+import 'dart:convert';
 
 class ResultPage extends StatefulWidget {
   final Map arguments;
@@ -12,29 +13,35 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   @override
-  void initState() {
+  Future<void> initState() async {
     // TODO: implement initState
     super.initState();
-    getTrack(widget.arguments["href"]);
-    // print(widget.arguments);
+    Map<String, dynamic> details = await getDetails(widget.arguments["href"]);
   }
 
-  void getTrack(String href) async {
+  Future<Map<String, dynamic>> getDetails(String href) async {
     Map<String, String> queryParameters = Uri.parse(href).queryParameters;
     String uuid = queryParameters["uuid"]!;
     String uriPath = kDetailsPath + uuid;
     Uri uri = Uri(
-        scheme: kDetailsScheme,
-        host: kDetailsHost,
-        path: uriPath,
+      scheme: kDetailsScheme,
+      host: kDetailsHost,
+      path: uriPath,
     );
     Response response = await get(uri);
+    Map<String, dynamic> details = {};
     if (response.statusCode == 200) {
-      String data = response.body;
-      print(data);
+      details = json.decode(response.body);
     } else {
       print(response.statusCode);
     }
+    return details;
+  }
+
+  List<Map<String, dynamic>> getReviewEvents(Map<String, dynamic> details) {
+    List<Map<String, dynamic>> reviewEvents = details["ReviewEvents"];
+
+    return [];
   }
 
   @override
