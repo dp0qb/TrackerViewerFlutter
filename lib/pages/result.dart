@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:track_viewer/constants.dart';
 import 'dart:convert';
+import 'package:flutter/services.dart';
 
 class ResultPage extends StatefulWidget {
   final Map arguments;
@@ -12,14 +13,30 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  Map<String, dynamic> details = {};
+  int nRevisions = 0;
+  Set<int> reviewers = {};
+  List<dynamic> reviewEvents = [];
+
   @override
-  Future<void> initState() async {
+  void initState() {
     // TODO: implement initState
     super.initState();
-    Map<String, dynamic> details = await getDetails(widget.arguments["href"]);
+    if (widget.arguments["href"] == "") {
+      String filePath = "assets/temp_demo_json_files/data.json";
+      loadDemoJsonData(filePath);
+    } else {
+      getDetails(widget.arguments["href"]);
+    }
   }
 
-  Future<Map<String, dynamic>> getDetails(String href) async {
+  void loadDemoJsonData(String filePath) async {
+    String jsonString = await rootBundle.loadString(filePath);
+    details = jsonDecode(jsonString);
+    getReviewEvents();
+  }
+
+  void getDetails(String href) async {
     Map<String, String> queryParameters = Uri.parse(href).queryParameters;
     String uuid = queryParameters["uuid"]!;
     String uriPath = kDetailsPath + uuid;
@@ -29,19 +46,35 @@ class _ResultPageState extends State<ResultPage> {
       path: uriPath,
     );
     Response response = await get(uri);
-    Map<String, dynamic> details = {};
     if (response.statusCode == 200) {
       details = json.decode(response.body);
     } else {
       print(response.statusCode);
     }
-    return details;
+    print(details);
+    getReviewEvents();
   }
 
-  List<Map<String, dynamic>> getReviewEvents(Map<String, dynamic> details) {
-    List<Map<String, dynamic>> reviewEvents = details["ReviewEvents"];
-
-    return [];
+  void getReviewEvents() async {
+    reviewEvents = details["ReviewEvents"];
+    nRevisions = details["LatestRevisionNumber"];
+    for (var e in reviewEvents) {
+      reviewers.add(e["Id"]);
+    }
+    // reviewEvents.map((e) => reviewers.add(e["Id"]));
+    List<dynamic> tempReviewEvents = [];
+    for (int i = 0; i < nRevisions; i++) {
+      List<dynamic> oneRoundReviewEvents = [];
+      for (var e in reviewEvents) {
+        if (e["Revision"] == i) {
+          oneRoundReviewEvents.add(e);
+        }
+      }
+      tempReviewEvents.add(oneRoundReviewEvents);
+    }
+    print(tempReviewEvents);
+    print(reviewers);
+    print(details);
   }
 
   @override

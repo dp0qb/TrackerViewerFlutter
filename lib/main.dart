@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlueAccent),
+        fontFamily: "NotoSansSC",
         useMaterial3: true,
       ),
       initialRoute: "/",

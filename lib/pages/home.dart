@@ -68,8 +68,11 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 45,
             ),
-            ElevatedButton(
-              onPressed: () {
+            ElevatedButton.icon(
+              icon: const Icon(
+                Icons.arrow_forward_ios,
+              ),
+              onPressed: () => {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
@@ -78,9 +81,9 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   ),
-                );
+                )
               },
-              child: const Text("解析 ->"),
+              label: const Text("解析"),
             ),
           ],
         ),
