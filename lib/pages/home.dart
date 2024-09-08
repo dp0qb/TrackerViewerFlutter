@@ -1,6 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:track_viewer/pages/about.dart';
+import 'package:track_viewer/pages/middle.dart';
 import 'package:track_viewer/pages/settings.dart';
+import 'package:track_viewer/routers/routers.dart';
+import '../constants.dart';
+import '../services/networking.dart';
 import './result.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // Map<String, dynamic> details = {};
+  // String filePath = "assets/temp_demo_json_files/data.json";
   final textController = TextEditingController();
   static const textFieldBorder = OutlineInputBorder(
     borderRadius: BorderRadius.all(
@@ -21,6 +29,23 @@ class _HomePageState extends State<HomePage> {
       color: Colors.lightBlueAccent,
     ),
   );
+
+  // void loadDemoJsonData(String filePath) async {
+  //   String jsonString = await rootBundle.loadString(filePath);
+  //   details = jsonDecode(jsonString);
+  // }
+  //
+  // void getDetails(String href) async {
+  //   Map<String, String> queryParameters = Uri.parse(href).queryParameters;
+  //   String uuid = queryParameters["uuid"]!;
+  //   String uriPath = kDetailsPath + uuid;
+  //   Uri uri = Uri(
+  //     scheme: kDetailsScheme,
+  //     host: kDetailsHost,
+  //     path: uriPath,
+  //   );
+  //   details = await NetworkHelper(uri: uri).getData();
+  // }
 
   @override
   void dispose() {
@@ -72,16 +97,9 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(
                 Icons.arrow_forward_ios,
               ),
-              onPressed: () => {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return ResultPage(
-                        arguments: {"href": textController.text},
-                      );
-                    },
-                  ),
-                )
+              onPressed: () {
+                Navigator.pushNamed(context, "/middle",
+                    arguments: {"href": textController.text});
               },
               label: const Text("解析"),
             ),

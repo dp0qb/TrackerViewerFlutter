@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:track_viewer/constants.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:track_viewer/services/networking.dart';
 
 class ResultPage extends StatefulWidget {
   final Map arguments;
@@ -22,37 +22,15 @@ class _ResultPageState extends State<ResultPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.arguments["href"] == "") {
-      String filePath = "assets/temp_demo_json_files/data.json";
-      loadDemoJsonData(filePath);
-    } else {
-      getDetails(widget.arguments["href"]);
-    }
-  }
-
-  void loadDemoJsonData(String filePath) async {
-    String jsonString = await rootBundle.loadString(filePath);
-    details = jsonDecode(jsonString);
-    getReviewEvents();
-  }
-
-  void getDetails(String href) async {
-    Map<String, String> queryParameters = Uri.parse(href).queryParameters;
-    String uuid = queryParameters["uuid"]!;
-    String uriPath = kDetailsPath + uuid;
-    Uri uri = Uri(
-      scheme: kDetailsScheme,
-      host: kDetailsHost,
-      path: uriPath,
-    );
-    Response response = await get(uri);
-    if (response.statusCode == 200) {
-      details = json.decode(response.body);
-    } else {
-      print(response.statusCode);
-    }
     print(details);
-    getReviewEvents();
+  }
+
+  String timeParse(int timeStamp) {
+    timeStamp *= 1000;
+    return DateTime.fromMillisecondsSinceEpoch(timeStamp)
+        .toLocal()
+        .toString()
+        .substring(0, 16);
   }
 
   void getReviewEvents() async {
@@ -61,7 +39,6 @@ class _ResultPageState extends State<ResultPage> {
     for (var e in reviewEvents) {
       reviewers.add(e["Id"]);
     }
-    // reviewEvents.map((e) => reviewers.add(e["Id"]));
     List<dynamic> tempReviewEvents = [];
     for (int i = 0; i < nRevisions; i++) {
       List<dynamic> oneRoundReviewEvents = [];
@@ -72,8 +49,10 @@ class _ResultPageState extends State<ResultPage> {
       }
       tempReviewEvents.add(oneRoundReviewEvents);
     }
-    print(tempReviewEvents);
-    print(reviewers);
+    reviewEvents = tempReviewEvents;
+    print(reviewEvents);
+    print(timeParse(reviewEvents[0][1]["Date"]));
+    // print(reviewers);
     print(details);
   }
 
@@ -83,8 +62,15 @@ class _ResultPageState extends State<ResultPage> {
       appBar: AppBar(
         title: const Text("解析结果"),
       ),
-      body: const Center(
-        child: Text("解析结果页面"),
+      body: Center(
+        child: ListView(
+          children: [
+            ListTile(
+                // title: Text(details["ManuscriptTitle"]),
+                ),
+          ],
+        ),
+        // child: const Text("解析结果页面"),
       ),
     );
   }
