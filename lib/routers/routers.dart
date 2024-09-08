@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:track_viewer/pages/about.dart';
 import 'package:track_viewer/pages/home.dart';
-import 'package:track_viewer/pages/middle.dart';
 import 'package:track_viewer/pages/result.dart';
 import 'package:track_viewer/pages/settings.dart';
 
 Map routes = {
   "/": (context) => const HomePage(),
   "/about": (context) => const AboutPage(),
-  "/middle": (context, {arguments}) => MiddlePage(arguments: arguments),
   "/result": (context, {arguments}) => ResultPage(arguments: arguments),
   "/settings": (context) => const SettingsPage(),
 };

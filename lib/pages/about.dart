@@ -15,7 +15,7 @@ class _AboutPageState extends State<AboutPage> {
         title: const Text("关于"),
       ),
       body: const Center(
-        child: Text("关于本软件"),
+        child: Text("作者是个懒人，什么都没写。"),
       ),
     );
   }

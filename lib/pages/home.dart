@@ -1,13 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:track_viewer/pages/about.dart';
-import 'package:track_viewer/pages/middle.dart';
 import 'package:track_viewer/pages/settings.dart';
-import 'package:track_viewer/routers/routers.dart';
-import '../constants.dart';
-import '../services/networking.dart';
-import './result.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,8 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Map<String, dynamic> details = {};
-  // String filePath = "assets/temp_demo_json_files/data.json";
   final textController = TextEditingController();
   static const textFieldBorder = OutlineInputBorder(
     borderRadius: BorderRadius.all(
@@ -30,26 +21,8 @@ class _HomePageState extends State<HomePage> {
     ),
   );
 
-  // void loadDemoJsonData(String filePath) async {
-  //   String jsonString = await rootBundle.loadString(filePath);
-  //   details = jsonDecode(jsonString);
-  // }
-  //
-  // void getDetails(String href) async {
-  //   Map<String, String> queryParameters = Uri.parse(href).queryParameters;
-  //   String uuid = queryParameters["uuid"]!;
-  //   String uriPath = kDetailsPath + uuid;
-  //   Uri uri = Uri(
-  //     scheme: kDetailsScheme,
-  //     host: kDetailsHost,
-  //     path: uriPath,
-  //   );
-  //   details = await NetworkHelper(uri: uri).getData();
-  // }
-
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     textController.dispose();
     super.dispose();
   }
@@ -98,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                 Icons.arrow_forward_ios,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, "/middle",
+                Navigator.pushNamed(context, "/result",
                     arguments: {"href": textController.text});
               },
               label: const Text("解析"),
