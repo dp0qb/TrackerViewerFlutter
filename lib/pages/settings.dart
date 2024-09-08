@@ -16,8 +16,10 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: Center(
         child: ListView(
-          children: [
-            ListTile(),
+          children: const [
+            ListTile(
+              title: Text("作者很懒，还没写相应功能。"),
+            ),
             ListTile(),
             ListTile(),
           ],

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:track_viewer/constants.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:track_viewer/constants.dart';
+import 'package:track_viewer/widgets/cell.dart';
 import 'package:track_viewer/services/networking.dart';
 
 class ResultPage extends StatefulWidget {
@@ -28,7 +29,6 @@ class _ResultPageState extends State<ResultPage> {
     String jsonString = await rootBundle.loadString(filePath);
     await Future.delayed(const Duration(milliseconds: 500));
     details = jsonDecode(jsonString);
-    // print(details);
   }
 
   Future<void> getDetails(String href) async {
@@ -85,7 +85,8 @@ class ResultListView extends StatefulWidget {
 
 class _ResultListViewState extends State<ResultListView> {
   int nRevisions = 0;
-  Set<int> reviewers = {};
+  Set<int> reviewerIds = {};
+  Map<int, String> reviewers = {};
   List<dynamic> reviewEvents = [];
 
   String timeParse(int timeStamp) {
@@ -97,11 +98,18 @@ class _ResultListViewState extends State<ResultListView> {
   }
 
   void getReviewEvents() {
+    int reviewerCount = 0;
+    Set<int> revisions = {};
     reviewEvents = widget.details["ReviewEvents"];
-    nRevisions = widget.details["LatestRevisionNumber"];
+    reviewEvents.sort((a, b) => a["Date"].compareTo(b["Date"]));
     for (var e in reviewEvents) {
-      reviewers.add(e["Id"]);
+      reviewerIds.add(e["Id"]);
+      revisions.add(e["Revision"]);
     }
+    for (var id in reviewerIds) {
+      reviewers[id] = "Reviewer ${++reviewerCount}";
+    }
+    nRevisions = revisions.length;
     List<dynamic> tempReviewEvents = [];
     for (int i = 0; i < nRevisions; i++) {
       List<dynamic> oneRoundReviewEvents = [];
@@ -110,6 +118,7 @@ class _ResultListViewState extends State<ResultListView> {
           oneRoundReviewEvents.add(e);
         }
       }
+      oneRoundReviewEvents.sort((a, b) => a["Date"].compareTo(b["Date"]));
       tempReviewEvents.add(oneRoundReviewEvents);
     }
     reviewEvents = tempReviewEvents;
@@ -117,18 +126,15 @@ class _ResultListViewState extends State<ResultListView> {
   }
 
   List<Widget> getListTiles() {
+    String submissionDate = timeParse(widget.details["SubmissionDate"]);
     List<Widget> listTitles = [
-      Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.lightGreen.shade100,
-        ),
+      Cell(
         child: ListTile(
           title: Text(
+            widget.details["ManuscriptTitle"],
             style: const TextStyle(
               fontWeight: FontWeight.w700,
             ),
-            widget.details["ManuscriptTitle"],
           ),
           subtitle: Wrap(
             spacing: 15,
@@ -145,6 +151,12 @@ class _ResultListViewState extends State<ResultListView> {
                 ),
                 "Corresponding Author: ${widget.details["CorrespondingAuthor"]}",
               ),
+              Text(
+                style: const TextStyle(
+                  fontSize: 12,
+                ),
+                "Submission Time: $submissionDate",
+              ),
             ],
           ),
         ),
@@ -154,19 +166,26 @@ class _ResultListViewState extends State<ResultListView> {
     for (List<dynamic> reviewEventsPerRound in reviewEvents) {
       for (dynamic reviewEvent in reviewEventsPerRound) {
         String timeStr = timeParse(reviewEvent["Date"]);
+        String? event = kEventsMap[reviewEvent["Event"]];
+        String? reviewer = reviewers[reviewEvent["Id"]];
         listTitles.add(
-          ListTile(
-            title: Wrap(
-              spacing: 15,
-              children: [
-                Text(timeStr),
-                Text(
-                  "${reviewEvent["Id"]}",
-                ),
-                Text(
-                  "${reviewEvent["Event"]}",
-                )
-              ],
+          Cell(
+            backgroundColor: Colors.blue.shade50,
+            child: ListTile(
+              title: Wrap(
+                spacing: 15,
+                children: [
+                  Text(
+                    "$reviewer",
+                  ),
+                  Text(
+                    "$event",
+                  ),
+                  Text(
+                    timeStr,
+                  ),
+                ],
+              ),
             ),
           ),
         );
