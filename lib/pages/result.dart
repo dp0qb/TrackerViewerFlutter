@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:track_viewer/constants.dart';
-import 'package:track_viewer/widgets/cell.dart';
+import 'package:track_viewer/widgets/info_card.dart';
 import 'package:track_viewer/services/networking.dart';
 
 class ResultPage extends StatefulWidget {
@@ -126,67 +126,28 @@ class _ResultListViewState extends State<ResultListView> {
   }
 
   List<Widget> getListTiles() {
+    String manuscriptTitle = widget.details["ManuscriptTitle"];
+    String firstAuthor = widget.details["FirstAuthor"];
+    String correspondingAuthor = widget.details["CorrespondingAuthor"];
     String submissionDate = timeParse(widget.details["SubmissionDate"]);
     List<Widget> listTitles = [
-      Cell(
-        child: ListTile(
-          title: Text(
-            widget.details["ManuscriptTitle"],
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          subtitle: Wrap(
-            spacing: 15,
-            children: [
-              Text(
-                style: const TextStyle(
-                  fontSize: 12,
-                ),
-                "First Author: ${widget.details["FirstAuthor"]}",
-              ),
-              Text(
-                style: const TextStyle(
-                  fontSize: 12,
-                ),
-                "Corresponding Author: ${widget.details["CorrespondingAuthor"]}",
-              ),
-              Text(
-                style: const TextStyle(
-                  fontSize: 12,
-                ),
-                "Submission Time: $submissionDate",
-              ),
-            ],
-          ),
-        ),
-      ),
+      IntroCard(
+          manuscriptTitle: manuscriptTitle,
+          firstAuthor: firstAuthor,
+          correspondingAuthor: correspondingAuthor,
+          submissionDate: submissionDate),
     ];
     getReviewEvents();
     for (List<dynamic> reviewEventsPerRound in reviewEvents) {
       for (dynamic reviewEvent in reviewEventsPerRound) {
-        String timeStr = timeParse(reviewEvent["Date"]);
+        String? timeStr = timeParse(reviewEvent["Date"]);
         String? event = kEventsMap[reviewEvent["Event"]];
         String? reviewer = reviewers[reviewEvent["Id"]];
         listTitles.add(
-          Cell(
-            backgroundColor: Colors.blue.shade50,
-            child: ListTile(
-              title: Wrap(
-                spacing: 15,
-                children: [
-                  Text(
-                    "$reviewer",
-                  ),
-                  Text(
-                    "$event",
-                  ),
-                  Text(
-                    timeStr,
-                  ),
-                ],
-              ),
-            ),
+          ReviewEventCard(
+            reviewer: reviewer,
+            event: event,
+            time: timeStr,
           ),
         );
       }

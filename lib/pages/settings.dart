@@ -14,16 +14,19 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         title: const Text("设置"),
       ),
-      body: Center(
-        child: ListView(
-          children: const [
-            ListTile(
-              title: Text("作者很懒，还没写相应功能。"),
-            ),
-            ListTile(),
-            ListTile(),
-          ],
+      body: const Center(
+        child: Text(
+          "作者很懒，还没写相应功能。",
         ),
+        // child: ListView(
+        //   children: const [
+        //     ListTile(
+        //       title: Text("作者很懒，还没写相应功能。"),
+        //     ),
+        //     ListTile(),
+        //     ListTile(),
+        //   ],
+        // ),
       ),
     );
   }

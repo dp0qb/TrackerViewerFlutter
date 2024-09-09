@@ -14,10 +14,10 @@ class _CellState extends State<Cell> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: widget.backgroundColor ?? Colors.lightGreen.shade100,
+        borderRadius: BorderRadius.circular(7),
+        color: widget.backgroundColor ?? Colors.blueGrey.shade100,
       ),
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(2),
       margin: const EdgeInsets.all(5),
       child: widget.child,
     );

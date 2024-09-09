@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:track_viewer/pages/about.dart';
 import 'package:track_viewer/pages/settings.dart';
+import 'package:track_viewer/widgets/expanded_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -66,15 +67,13 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 45,
             ),
-            ElevatedButton.icon(
-              icon: const Icon(
-                Icons.arrow_forward_ios,
-              ),
+            ExpandedButton(
+              labelStr: "解析",
               onPressed: () {
                 Navigator.pushNamed(context, "/result",
                     arguments: {"href": textController.text});
               },
-              label: const Text("解析"),
+              icon: Icons.arrow_forward_ios,
             ),
           ],
         ),
