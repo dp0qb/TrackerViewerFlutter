@@ -1,28 +1,44 @@
 import 'package:flutter/material.dart';
 
 class ExpandedButton extends StatelessWidget {
+  final Widget child;
+  final Color? color;
   final IconData? icon;
-  final String labelStr;
   final void Function()? onPressed;
   const ExpandedButton(
-      {super.key, required this.labelStr, required this.onPressed, this.icon});
+      {super.key,
+      required this.child,
+      required this.onPressed,
+      this.color,
+      this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      style: const ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(
-          Colors.blue,
+    return Row(
+      children: [
+        Expanded(
+          child: MaterialButton(
+            color: color ?? Colors.blue,
+            onPressed: onPressed,
+            textTheme: ButtonTextTheme.primary,
+            textColor: Colors.white,
+            splashColor: Colors.blue.shade400,
+            elevation: 10,
+            highlightElevation: 20,
+            disabledElevation: 5.0,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  7.0,
+                ),
+              ),
+            ),
+            height: 44.0,
+            minWidth: 140,
+            child: child,
+          ),
         ),
-        foregroundColor: WidgetStatePropertyAll(
-          Colors.white,
-        ),
-      ),
-      icon: Icon(color: Colors.white, icon),
-      onPressed: onPressed,
-      label: Text(
-        labelStr,
-      ),
+      ],
     );
   }
 }

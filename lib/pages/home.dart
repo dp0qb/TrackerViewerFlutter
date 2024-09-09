@@ -35,19 +35,19 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Track Viewer"),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.search,
-              size: 100,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Container(
-              margin: const EdgeInsets.all(25),
-              child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.search,
+                size: 150,
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Center(
                 child: TextField(
                   controller: textController,
                   minLines: 1,
@@ -63,19 +63,19 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 45,
-            ),
-            ExpandedButton(
-              labelStr: "解析",
-              onPressed: () {
-                Navigator.pushNamed(context, "/result",
-                    arguments: {"href": textController.text});
-              },
-              icon: Icons.arrow_forward_ios,
-            ),
-          ],
+              const SizedBox(
+                height: 30,
+              ),
+              ExpandedButton(
+                child: const Text("查询"),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/result",
+                      arguments: {"href": textController.text});
+                },
+                // icon: Icons.arrow_forward_ios,
+              ),
+            ],
+          ),
         ),
       ),
       drawer: Drawer(
