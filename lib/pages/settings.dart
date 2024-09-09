@@ -18,15 +18,6 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Text(
           "作者很懒，还没写相应功能。",
         ),
-        // child: ListView(
-        //   children: const [
-        //     ListTile(
-        //       title: Text("作者很懒，还没写相应功能。"),
-        //     ),
-        //     ListTile(),
-        //     ListTile(),
-        //   ],
-        // ),
       ),
     );
   }

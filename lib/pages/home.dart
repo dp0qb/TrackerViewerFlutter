@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:track_viewer/pages/about.dart';
-import 'package:track_viewer/pages/settings.dart';
 import 'package:track_viewer/widgets/expanded_button.dart';
 
 class HomePage extends StatefulWidget {
@@ -69,8 +67,11 @@ class _HomePageState extends State<HomePage> {
               ExpandedButton(
                 child: const Text("查询"),
                 onPressed: () {
-                  Navigator.pushNamed(context, "/result",
-                      arguments: {"href": textController.text});
+                  Navigator.pushNamed(
+                    context,
+                    "/result",
+                    arguments: {"href": textController.text},
+                  );
                 },
                 // icon: Icons.arrow_forward_ios,
               ),
@@ -79,50 +80,49 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       drawer: Drawer(
-        width: 220,
-        // shape: Border.all(),
-        child: ListView(
-          children: [
-            const SizedBox(
-              height: 45,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+              2,
             ),
-            ListTile(
-              leading: const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(
+          ),
+        ),
+        width: 220,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: ListView(
+            children: [
+              const SizedBox(
+                height: 45,
+              ),
+              ListTile(
+                leading: const Icon(
                   Icons.settings,
                 ),
+                title: const Text("设置"),
+                onTap: () => {
+                  Navigator.pushNamed(
+                    context,
+                    "/settings",
+                  )
+                },
               ),
-              title: const Text("设置"),
-              onTap: () => {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return const SettingsPage();
-                    },
-                  ),
-                ),
-              },
-            ),
-            ListTile(
-              leading: const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(
+              const Divider(),
+              ListTile(
+                leading: const Icon(
                   Icons.info_outline,
                 ),
-              ),
-              title: const Text("关于"),
-              onTap: () => {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return const AboutPage();
-                    },
+                title: const Text("关于"),
+                onTap: () => {
+                  Navigator.pushNamed(
+                    context,
+                    "/about",
                   ),
-                ),
-              },
-            ),
-          ],
+                },
+              ),
+              const Divider(),
+            ],
+          ),
         ),
       ),
     );

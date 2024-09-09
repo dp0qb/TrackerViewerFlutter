@@ -15,7 +15,16 @@ class _AboutPageState extends State<AboutPage> {
         title: const Text("关于"),
       ),
       body: const Center(
-        child: Text("作者是个懒人，什么都没写。"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("作者：Guo RQ"),
+            SizedBox(
+              height: 20,
+            ),
+            Text("作者是个懒人，什么都没写。"),
+          ],
+        ),
       ),
     );
   }

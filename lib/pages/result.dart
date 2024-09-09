@@ -15,19 +15,19 @@ class ResultPage extends StatefulWidget {
 
 class _ResultPageState extends State<ResultPage> {
   Map<String, dynamic> details = {};
-  String filePath = "assets/temp_demo_json_files/data.json";
+  // String filePath = "assets/temp_demo_json_files/data.json";
 
   Future<void> autoLoadData() async {
-    if (widget.arguments["href"] == "") {
-      await loadDemoJsonData(filePath);
-    } else {
-      await getDetails(widget.arguments["href"]);
-    }
+    // if (widget.arguments["href"] == "") {
+    //   await loadDemoJsonData(filePath);
+    // } else {
+    //   await getDetails(widget.arguments["href"]);
+    // }
+    await getDetails(widget.arguments["href"]);
   }
 
   Future<void> loadDemoJsonData(String filePath) async {
     String jsonString = await rootBundle.loadString(filePath);
-    await Future.delayed(const Duration(milliseconds: 500));
     details = jsonDecode(jsonString);
   }
 
@@ -57,7 +57,8 @@ class _ResultPageState extends State<ResultPage> {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
                 // 请求失败，显示错误
-                return Text("Error: ${snapshot.error}");
+                // return Text("Error: ${snapshot.error}");
+                return const Text("请求失败，请检查设备网络及Track链接是否有效。");
               } else {
                 ResultListView resultListView =
                     ResultListView(details: details);
@@ -122,7 +123,6 @@ class _ResultListViewState extends State<ResultListView> {
       tempReviewEvents.add(oneRoundReviewEvents);
     }
     reviewEvents = tempReviewEvents;
-    print(widget.details);
   }
 
   List<Widget> getListTiles() {
